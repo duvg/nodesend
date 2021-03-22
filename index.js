@@ -11,6 +11,8 @@ connectDB();
 // App port
 const port = process.env.PORT || 4000;
 
+// Enable ead values from body
+app.use( express.json() );
 
 // App routes 
 app.use('/api/v1/users', require('./routes/users'));
