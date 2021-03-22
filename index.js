@@ -2,6 +2,7 @@ const express = require('express');
 const { connect } = require('mongoose');
 const connectDB = require('./config/db');
 
+
 // Create  server
 const app = express();
 
@@ -14,8 +15,12 @@ const port = process.env.PORT || 4000;
 // Enable ead values from body
 app.use( express.json() );
 
+// Prefix
+const api = '/api/v1';
+
 // App routes 
-app.use('/api/v1/users', require('./routes/users'));
+app.use(`${api}/users`, require('./routes/users'));
+app.use(`${api}/auth`, require('./routes/auth'));
 
 
 // Start the App
