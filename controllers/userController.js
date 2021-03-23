@@ -17,7 +17,7 @@ exports.newUser = async (req, res) => {
     let user = await User.findOne({ email });
 
     if(user) {
-        return res.status(400).json({ msg: `User with email ${email} already exist`});
+        return res.status(400).json({ msg: `Usuario con email: ${email} ya existe`});
     }
 
     // Create a new user
@@ -29,7 +29,7 @@ exports.newUser = async (req, res) => {
 
     try {
         user.save();
-        res.json({msg: 'User created!'});    
+        res.json({msg: 'Usuario creado!'});    
     } catch (error) {
         console.log('Error', error);
         return res.status(500).json({msg: 'Ocurrio un error, intenta nuevamente'})

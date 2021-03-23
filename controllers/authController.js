@@ -19,7 +19,7 @@ exports.authUser = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if( ! user ) {
-        res.status(401).json({msg: `User with email: ${email} not found!`});
+        res.status(401).json({msg: `Usuario con email: ${email} no existe!`});
         return next();
     }
 
@@ -37,7 +37,7 @@ exports.authUser = async (req, res, next) => {
         res.status(200).json({token});
 
     } else {
-        res.status(401).json({msg: "Invalid password"});
+        res.status(401).json({msg: "Password incorrecto"});
         return next();
     }
     

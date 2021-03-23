@@ -1,5 +1,4 @@
 const Link = require('../models/Link');
-const User = require('../models/User');
 const shortid = require('shortid');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
@@ -51,4 +50,41 @@ exports.newLink = async (req, res, next)  => {
         res.status(500).json('Ocurrio un error intenta nuevamente');
     }
 
+}
+
+// Get Link
+exports.getLink = async (req, res, next) => {
+    
+    const { url } = req.params;
+    // Check if link exists
+    const link = await Link.findOne({ url: url });
+    
+    if( ! link ) {
+        res.status(404).json({msg: 'El archivo que buscas no existe'});
+        return next();
+    }
+
+    // If link exists
+    res.status(200).json({ file: link.nombre });
+
+    // If number of downloads equeal to 1 Delte file from server
+    const { descargas, nombre } = link;
+    console.log(descargas);
+    if(descargas === 1) {
+        
+        // Delete file
+        req.archivo = nombre;
+
+        // Delete record DB
+        await Link.findOneAndRemove(req.params.url)
+
+        next();
+    } else {
+        // If number of downloads is > to 1 - subtract 1
+        console.log('restando');
+        link.descargas--;
+        await link.save();
+    }
+
+    
 }

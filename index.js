@@ -22,6 +22,7 @@ const api = '/api/v1';
 app.use(`${api}/users`, require('./routes/users'));
 app.use(`${api}/auth`, require('./routes/auth'));
 app.use(`${api}/links`, require('./routes/links'));
+app.use(`${api}/files`, require('./routes/files'));
 
 
 // Start the App
