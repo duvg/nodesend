@@ -21,6 +21,7 @@ const api = '/api/v1';
 // App routes 
 app.use(`${api}/users`, require('./routes/users'));
 app.use(`${api}/auth`, require('./routes/auth'));
+app.use(`${api}/links`, require('./routes/links'));
 
 
 // Start the App
