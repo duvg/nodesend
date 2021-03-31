@@ -1,7 +1,7 @@
 const express = require('express');
 const { connect } = require('mongoose');
 const connectDB = require('./config/db');
-
+const cors = require('cors');
 
 // Create  server
 const app = express();
@@ -9,11 +9,18 @@ const app = express();
 // Connect to DB
 connectDB();
 
+// Enable cors
+const corsOptions = {
+    origin: process.env.FRONTEND_URL
+}
+app.use(cors());
+
 // App port
 const port = process.env.PORT || 4000;
 
 // Enable ead values from body
 app.use( express.json() );
+
 
 // Prefix
 const api = '/api/v1';

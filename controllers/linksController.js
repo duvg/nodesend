@@ -13,11 +13,11 @@ exports.newLink = async (req, res, next)  => {
     }
 
     // Create Link object
-    const { nombre_original } = req.body;
+    const { nombre_original, nombre } = req.body;
     
     const link  = new Link();
     link.url = shortid.generate();
-    link.nombre = shortid.generate();
+    link.nombre = nombre;
     link.nombre_original = nombre_original;
     
     
