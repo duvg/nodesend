@@ -12,4 +12,9 @@ router.delete('/:id',
     fileController.deleteFile
 );
 
+router.get('/:file',
+    fileController.download,
+    fileController.deleteFile
+);
+
 module.exports = router;

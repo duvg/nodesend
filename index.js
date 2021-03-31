@@ -21,6 +21,8 @@ const port = process.env.PORT || 4000;
 // Enable ead values from body
 app.use( express.json() );
 
+// Enable public folders
+app.use( express.static('uploads') );
 
 // Prefix
 const api = '/api/v1';

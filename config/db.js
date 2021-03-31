@@ -12,11 +12,8 @@ const connectDB = async () => {
             useCreateIndex: true
         } );
 
-        console.log("DB connected successfully");
-
     } catch (error) {
-        console.log('Ocurrio un error');
-        console.log(error);
+        res.status(500).json({msg: 'Ocurrio un error intenta nuevamente'});
         process.exit(1);        
     }
 }

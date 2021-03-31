@@ -47,15 +47,25 @@ exports.newLink = async (req, res, next)  => {
         return next();
     } catch (error) {
         console.log(error);
-        res.status(500).json('Ocurrio un error intenta nuevamente');
     }
 
+}
+
+// Get all links
+exports.allLinks = async (req, res) => {
+    try {
+        const links = await Link.find({}).select('url -_id');
+        res.status(200).json({links});
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // Get Link
 exports.getLink = async (req, res, next) => {
     
     const { url } = req.params;
+    console.log(url);
     // Check if link exists
     const link = await Link.findOne({ url: url });
     
@@ -67,24 +77,5 @@ exports.getLink = async (req, res, next) => {
     // If link exists
     res.status(200).json({ file: link.nombre });
 
-    // If number of downloads equeal to 1 Delte file from server
-    const { descargas, nombre } = link;
-    console.log(descargas);
-    if(descargas === 1) {
-        
-        // Delete file
-        req.archivo = nombre;
-
-        // Delete record DB
-        await Link.findOneAndRemove(req.params.url)
-
-        next();
-    } else {
-        // If number of downloads is > to 1 - subtract 1
-        console.log('restando');
-        link.descargas--;
-        await link.save();
-    }
-
-    
+    next();    
 }
