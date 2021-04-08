@@ -1,4 +1,5 @@
 vars.env
+vars.test.env
 node_modules
 .DS_Store
 .idea
