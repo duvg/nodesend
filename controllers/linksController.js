@@ -46,7 +46,7 @@ exports.newLink = async (req, res, next)  => {
         res.status(201).json({msg: `${link.url}`});
         return next();
     } catch (error) {
-        console.log(error);
+        res.status(500).json({msg: 'Error al crear el link'})
     }
 
 }
@@ -57,15 +57,53 @@ exports.allLinks = async (req, res) => {
         const links = await Link.find({}).select('url -_id');
         res.status(200).json({links});
     } catch (error) {
-        console.log(error);
+        res.status(500).json('Error, intenta nuevamente');
     }
+}
+
+// Return if link has password or not
+exports.hasPassword = async (req, res, next) => {
+    const { url } = req.params;
+
+    // Check if link exists
+    const link = await Link.findOne({ url: url });
+    
+    if( ! link ) {
+        res.status(404).json({msg: 'El archivo que buscas no existe'});
+        return next();
+    }
+
+    if(link.password) {
+        return res.status(200).json({ password: true, link: link.url });
+    }
+    
+    next();
+}
+
+// Verify password link
+exports.verifyPassword = async (req, res, next) => {
+    const { url } = req.params;
+    const { password } = req.body;
+
+    // Verify link
+    const link  = await Link.findOne({ url });
+
+    // Verify password
+    if(bcrypt.compareSync( password, link.password)) {
+        // Download file
+        next();
+    } else {
+        return res.status(401).json({ msg: 'Password incorrecto'});
+    }
+
+    
 }
 
 // Get Link
 exports.getLink = async (req, res, next) => {
     
     const { url } = req.params;
-    console.log(url);
+    
     // Check if link exists
     const link = await Link.findOne({ url: url });
     
@@ -75,7 +113,7 @@ exports.getLink = async (req, res, next) => {
     }
 
     // If link exists
-    res.status(200).json({ file: link.nombre });
+    res.status(200).json({ file: link.nombre, password: false });
 
     next();    
 }

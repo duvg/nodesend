@@ -47,7 +47,7 @@ exports.deleteFile = async (req, res) => {
         fs.unlinkSync(__dirname + `/../uploads/${req.archivo}`);
         
     } catch (error) {
-        console.log(error);
+        res.status(500).json("Error al eliminar el archivo");;
     }
 }
 
