@@ -33,8 +33,7 @@ app.use(`${api}/auth`, require('./routes/auth'));
 app.use(`${api}/links`, require('./routes/links'));
 app.use(`${api}/files`, require('./routes/files'));
 
-
 // Start the App
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, function  () {
     console.log(`Server online in port ${port}`);
 });
